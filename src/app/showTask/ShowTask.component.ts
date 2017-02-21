@@ -34,4 +34,11 @@ export class ShowTaskComponent extends OnInit{
 
   };
 
+  deleteTask = function(event: any) {
+    event.preventDefault();
+
+
+
+  }
+
 }

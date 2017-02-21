@@ -1,6 +1,7 @@
 <div class="container tasks">
   <div class="row">
     <div class="col-sm-12">
+      <h2>Tasks To-Do</h2>
       <ul class="list-group">
 
         <li class="list-group-item" *ngFor="let task of tasks">
@@ -9,11 +10,11 @@
             <div class="col-sm-8 task-title"><a href="#">{{task.title}}</a></div>
             <div class="col-sm-1 task-priority">{{task.priority}}</div>
             <div class="col-sm-1 task-edit">
-              <a  class="btn edit" taskId="{{task._id}}">
-                <span class="glyphicon glyphicon-edit" taskId="{{task._id}}"></span>
+              <a  class="btn" >
+                <span class="glyphicon glyphicon-edit {{task._id}}"></span>
               </a>
-              <a  class="btn delete" (click)="deleteTask($event)" taskId="{{task._id}}">
-                <span class="glyphicon glyphicon-remove-circle" taskId="{{task._id}}"></span>
+              <a  class="btn" >
+                <span class="glyphicon glyphicon-remove-circle {{task._id}}"></span>
               </a>
             </div>
           </div>

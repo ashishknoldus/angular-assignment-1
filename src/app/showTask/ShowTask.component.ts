@@ -4,30 +4,34 @@
 import {Component, OnInit} from "@angular/core";
 import {LocalStorage} from '../models/LocalStorage';
 import {Task} from "../models/Task.model";
+import {AppService} from "../app.service";
 
 @Component({
+  moduleId : module.id,
   selector : 'show-task',
-  templateUrl : 'app/showTask/showTask.component.html',
-  styleUrls: ['app/showTask/showTask.component.css'],
+  templateUrl : './showTask.component.html',
+  styleUrls: ['./showTask.component.css'],
 })
 
 export class ShowTaskComponent extends OnInit{
 
   tasks:Task[];
-  localStorage:LocalStorage;
 
   ngOnInit() {
-    setInterval(() => {this.refreshTasks()}, 1000);
+    setInterval(() => {this.refreshTasks()}, 5000);
   }
 
-  constructor(){
+  constructor(private appService: AppService){
     super();
-    this.localStorage =new LocalStorage();
     this.refreshTasks();
   }
 
   refreshTasks = function() {
-    this.tasks= this.localStorage.get();
-  }
+
+    this.appService.retrieveDataFromServer().subscribe((data: any) => {
+      this.tasks = data;
+    });
+
+  };
 
 }

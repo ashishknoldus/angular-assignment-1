@@ -21,13 +21,15 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-      System.import('main.js').catch(function(err){ console.error(err); });
+      System.import('app').catch(function(err){ console.error(err); });
     </script>
   </head>
 
   <body>
+
     <my-app>Loading AppComponent content here ...</my-app>
-    <create-task>Loading Task Form</create-task>
-    <show-task>Loading Tasks Here</show-task>
+    <home hidden>Loading Home...</home>
+    <create-task hidden>Loading Task Form...</create-task>
+    <show-task hidden>Loading Tasks Here...</show-task>
   </body>
 </html>

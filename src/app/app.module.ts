@@ -6,10 +6,16 @@ import { CreateTaskComponent} from "./createTask/createTask.component";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ShowTaskComponent} from "./showTask/ShowTask.component";
+import {AppService} from "./app.service";
+import {HttpModule} from "@angular/http";
+import {HomeComponent} from "./home/home.component";
+import {RouterModule} from "@angular/router";
+import {routes} from "./app.routes";
 
 @NgModule({
-  imports:      [ BrowserModule, CommonModule, FormsModule],
-  declarations: [ AppComponent , CreateTaskComponent, ShowTaskComponent],
-  bootstrap:    [ AppComponent, CreateTaskComponent, ShowTaskComponent ]
+  imports:      [ BrowserModule, CommonModule, FormsModule, HttpModule, RouterModule.forRoot(routes)],
+  declarations: [ AppComponent , HomeComponent, CreateTaskComponent, ShowTaskComponent],
+  bootstrap:    [ AppComponent, HomeComponent, CreateTaskComponent, ShowTaskComponent ],
+  providers:    [ AppService]
 })
 export class AppModule {  }

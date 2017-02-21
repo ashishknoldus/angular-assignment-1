@@ -5,11 +5,13 @@
 import {Component} from "@angular/core";
 import {Task} from "../models/Task.model";
 import {LocalStorage} from '../models/LocalStorage';
+import {AppService} from '../app.service';
 
 @Component({
+  moduleId : module.id,
   selector : 'create-task',
-  templateUrl : 'app/createTask/createTask.component.html',
-  styleUrls: ['app/createTask/createTask.component.css']
+  templateUrl : './createTask.component.html',
+  styleUrls: ['./createTask.component.css']
 })
 
 export class CreateTaskComponent{
@@ -53,58 +55,58 @@ export class CreateTaskComponent{
 
     this.dayButtonLabel = event.target.innerText;
 
-  }
+  };
 
   monthClicked = function(event:any) {
     event.preventDefault();
 
     this.monthButtonLabel = event.target.innerText;
 
-  }
+  };
 
   yearClicked = function(event:any) {
     event.preventDefault();
 
     this.yearButtonLabel = event.target.innerText;
 
-  }
+  };
 
   priorityClicked = function(event:any) {
     event.preventDefault();
 
     this.priorityButtonLabel = event.target.innerText;
 
-  }
+  };
 
   captureTitle = function (title: string) {
     this.taskTitle = title;
-  }
+  };
 
   captureDescription = function (description: string) {
     this.taskDescription = description;
-  }
+  };
 
   addTask = function (event : any) {
     event.preventDefault();
 
-    this.storage.add(''+this.taskCounter,
+    this.appService.insertDataOnServer(
       new Task(
         parseInt(this.dayButtonLabel),
         this.monthButtonLabel,
         parseInt(this.yearButtonLabel),
         this.taskTitle,
         this.taskDescription,
-        this.priorityButtonLabel
+        this.priorityButtonLabel,
+        this.taskCounter+''
       )
-    );
+    ).subscribe((data:any) => {
+      alert(data)
+    });
 
+    console.log('Task stored on server');
     this.taskCounter ++;
-  }
+  };
 
-  public taskCounter:number = localStorage.length;
-
-  constructor() {
-    this.storage = new LocalStorage();
-  }
+  constructor(private appService: AppService) {}
 
 }

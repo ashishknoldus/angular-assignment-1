@@ -4,12 +4,11 @@
 
 export class Task {
 
-  public day: number;
-  public month: string;
-  public year: number;
+  public date: string;
   public title: string;
   public description: string;
   public priority: string;
+  public _id: string;
 
   constructor(
     day: number,
@@ -17,13 +16,15 @@ export class Task {
     year: number,
     title: string,
     description: string,
-    priority: string
+    priority: string,
+    id: string
   ){
-    this.day = day;
-    this.month = month;
-    this.year = year;
+    this.date = day +' '+ month +' '+ year;
     this.title = title;
     this.description = description;
     this.priority = priority;
+    this._id = id;
+    console.log('Task object created');
+
   }
 }

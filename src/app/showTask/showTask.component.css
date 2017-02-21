@@ -1,0 +1,19 @@
+div.container.tasks {
+  padding-top : 20px;
+}
+
+div.task-date {
+  color: #336699;
+  font-weight: bold;
+}
+
+div.task-title {
+  color: #3e3e3e;
+}
+
+div.task-edit a.btn {
+  height: auto!important;
+  width: auto!important;
+  padding: 0px;
+  margin: 0px;
+}

@@ -1,1 +1,22 @@
+<div class="container tasks">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Tasks To-Do</h2>
+      <ul class="list-group">
 
+        <li class="list-group-item" *ngFor="let task of tasks">
+          <div class="row">
+            <div class="col-sm-2 task-date">{{task.day}} {{task.month}} {{task.year}}</div>
+            <div class="col-sm-8 task-title"><a href="#">{{task.title}}</a></div>
+            <div class="col-sm-1 task-priority">{{task.priority}}</div>
+            <div class="col-sm-1 task-edit">
+              <a  class="btn">
+                <span class="glyphicon glyphicon-edit"></span>
+              </a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -3,8 +3,8 @@
  */
 
 import {Component} from "@angular/core";
-import {LocalStorage, LocalStorageService} from 'ng2-webstorage';
 import {Task} from "../models/Task.model";
+import {LocalStorage} from '../models/LocalStorage';
 
 @Component({
   selector : 'create-task',
@@ -14,6 +14,7 @@ import {Task} from "../models/Task.model";
 
 export class CreateTaskComponent{
 
+  storage: LocalStorage;
   dayButtonLabel : string = 'Day';
   monthButtonLabel : string = 'Month';
   yearButtonLabel : string = 'Year';
@@ -75,10 +76,18 @@ export class CreateTaskComponent{
 
   }
 
+  captureTitle = function (title: string) {
+    this.taskTitle = title;
+  }
+
+  captureDescription = function (description: string) {
+    this.taskDescription = description;
+  }
+
   addTask = function (event : any) {
     event.preventDefault();
 
-    this.storage.store(this.taskCounter,
+    this.storage.add(''+this.taskCounter,
       new Task(
         parseInt(this.dayButtonLabel),
         this.monthButtonLabel,
@@ -92,10 +101,10 @@ export class CreateTaskComponent{
     this.taskCounter ++;
   }
 
-  public taskCounter:number = 0;
+  public taskCounter:number = localStorage.length;
 
-  constructor(private storage:LocalStorageService) {}
+  constructor() {
+    this.storage = new LocalStorage();
+  }
 
-  @LocalStorage()
-  public tasks:Task[];
 }

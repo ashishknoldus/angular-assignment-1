@@ -1,3 +1,15 @@
+# Angular-assignment-1
+
+# ToDo Application
+
+## This application can use the localStorage (which I implemented but have'nt used) as a way of caching the data on client 
+## side and can save many hits on server.
+## Right now it checks after every 3 seconds and brings data from API even if there is no new data/ update/ deletion.
+## And this is quite expensive. That's why localStorage is a better option to cache all the tasks and only hit the server 
+## when some create/ update/ delete operation has been performed. We can monitor the change by setting some flag in 
+## app.service and respective to that flag a value can be stored in LocalStorage. So now every three seconds application 
+## will hit localStorage (to check changeState flag) rather than server directly.
+
 # Angular QuickStart Source
 [![Build Status][travis-badge]][travis-badge-url]
 

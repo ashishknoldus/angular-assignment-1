@@ -11,11 +11,12 @@ import {HttpModule} from "@angular/http";
 import {HomeComponent} from "./home/home.component";
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
+import {UpdateTaskComponent} from "./updateTask/updateTask.component";
 
 @NgModule({
   imports:      [ BrowserModule, CommonModule, FormsModule, HttpModule, RouterModule.forRoot(routes)],
-  declarations: [ AppComponent , HomeComponent, CreateTaskComponent, ShowTaskComponent],
-  bootstrap:    [ AppComponent, HomeComponent, CreateTaskComponent, ShowTaskComponent ],
+  declarations: [ AppComponent , HomeComponent, CreateTaskComponent, ShowTaskComponent, UpdateTaskComponent],
+  bootstrap:    [ AppComponent ],
   providers:    [ AppService]
 })
 export class AppModule {  }

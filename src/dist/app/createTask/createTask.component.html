@@ -62,3 +62,13 @@
     </div>
   </form>
 </div>
+
+<div class="container display-error" *ngIf="displayErrorFlag == 1">
+  <div class="jumbotron">
+    <h2>{{errorMessage}}</h2>
+
+    <button type="button" class="btn btn-danger hide-details" (click)="hideErrorPanel()">
+      Close
+    </button>
+  </div>
+</div>

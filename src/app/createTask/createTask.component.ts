@@ -4,8 +4,8 @@
 
 import {Component} from "@angular/core";
 import {Task} from "../models/Task.model";
-import {LocalStorage} from '../models/LocalStorage';
 import {AppService} from '../app.service';
+import {Router} from "@angular/router";
 
 @Component({
   moduleId : module.id,
@@ -16,7 +16,6 @@ import {AppService} from '../app.service';
 
 export class CreateTaskComponent{
 
-  storage: LocalStorage;
   dayButtonLabel : string = 'Day';
   monthButtonLabel : string = 'Month';
   yearButtonLabel : string = 'Year';
@@ -45,9 +44,9 @@ export class CreateTaskComponent{
   yearArray : number[] = [2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,];
 
   priorityArray : string[] = [
-    'low',
-    'medium',
-    'high'
+    'Low',
+    'Medium',
+    'High'
   ];
 
   dayClicked = function(event:any) {
@@ -89,24 +88,65 @@ export class CreateTaskComponent{
   addTask = function (event : any) {
     event.preventDefault();
 
+    let day = parseInt(this.dayButtonLabel);
+    let month = this.monthButtonLabel;
+    let year = parseInt(this.yearButtonLabel);
+    let title = this.taskTitle;
+    let description = this.taskDescription;
+    let priority = this.priorityButtonLabel;
+
+    console.log(year%4);
+
+    if(month in ['April', 'June', 'September', 'November'] && day == 31) {
+      this.errorMessage = "This is a 30 days' month!";
+    } else if (month == 'February' && year%4 == 0  && day > 29) {
+      this.errorMessage = "This is a 29 days' month!";
+    } else if (month == 'February' && year%4 != 0  && day > 28) {
+      this.errorMessage = "This is a 28 days' month!";
+    } else if (isNaN(year)) {
+      this.errorMessage = "Choose year";
+    } else if (isNaN(day)) {
+      this.errorMessage = "Choose day";
+    } else if (month.trim() == 'Month') {
+      this.errorMessage = "Choose month";
+    } else if (title.trim() == '') {
+      this.errorMessage = "Write title for the task";
+    } else if (description.trim() == '') {
+      this.errorMessage = "Write description for the task";
+    } else if (priority.trim() == 'Priority') {
+      this.errorMessage = "Choose priority";
+    }
+
+    console.error("Error: "+this.errorMessage);
+
+    if(this.errorMessage != '') {
+      this.displayErrorFlag = 1;
+      return;
+    }
+
     this.appService.insertDataOnServer(
       new Task(
-        parseInt(this.dayButtonLabel),
-        this.monthButtonLabel,
-        parseInt(this.yearButtonLabel),
-        this.taskTitle,
-        this.taskDescription,
-        this.priorityButtonLabel,
-        this.taskCounter+''
+        day+' '+ month +' '+ year,
+        title,
+        description,
+        priority
       )
-    ).subscribe((data:any) => {
-      alert(data)
-    });
+    ).subscribe();
 
-    console.log('Task stored on server');
-    this.taskCounter ++;
+    this.displayErrorFlag = 0;
+    this._router.navigate(['show-task']);
+
   };
 
-  constructor(private appService: AppService) {}
+  errorMessage:string = '';
+
+  displayErrorFlag: number = 0;
+
+  hideErrorPanel = function() {
+    this.displayErrorFlag = 0;
+    this.errorMessage = '';
+  }
+
+  constructor(private appService: AppService, private _router: Router) {}
 
 }

@@ -19,26 +19,9 @@ export class AppService {
   }
 
   public taskArray: Task[] = [];
-
-  delete = function(index: number) {
-    this.taskArray.splice(index,1);
-  }
-
-  add = function(task: Task) {
-    this.taskArray.push(task);
-  }
-
-  update = function(index: number, task: Task) {
-    if(this.tasks.indexOf(task) !== -1) {
-      this.taskArray[index] = task;
-    } else {
-      this.add(task);
-    }
-  }
+  public stateChangeOnServer: boolean = true;
 
   insertDataOnServer = function (task: Task) : Observable<any> {
-
-    console.log('Sending task to server/DB Task : '+task.title);
 
     let jsonHeader = new Headers({
       'Content-Type' : 'application/json'
@@ -53,15 +36,15 @@ export class AppService {
       "priority" : task.priority
     };
 
-    console.log('Object for mongoDB created '+ JSON.stringify(taskObject));
-
     return this.http.post('http://localhost:9000/add', taskObject, {headers: jsonHeader})
       .map((response: any) => {
-        console.log('Task is storing on server/DB');
+
+        this.stateChangeOnServer = true;
+
         return this.extractData(response);
       })
       .catch((error: any) => {
-        console.log('Error while storing on server/DB');
+
         return this.handleError(error);
       });
 
@@ -74,6 +57,7 @@ export class AppService {
 
     return this.http.get('http://localhost:9000/get/all', {headers: jsonHeader})
       .map((response: any) => {
+
         return this.extractData(response);
       });
   };
@@ -86,19 +70,50 @@ export class AppService {
 
     return this.http.get('http://localhost:9000/remove/'+id, {headers: jsonHeader})
       .map((response: any) => {
+
+        this.stateChangeOnServer = true;
+
         return this.extractData(response);
-    });
+      })
+      .catch((e: any) =>{
+
+        return this.handleError(e);
+      });
   };
 
-  updateDataOnServer = function(task:Task){};
+  updateDataOnServer = function(id: string, task:Task): Observable<any> {
+
+    let jsonHeader = new Headers({
+      'Content-Type' : 'application/json'
+    });
+
+    let updatedObject = {
+      date: task.date,
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      _id : id
+    };
+
+    return this.http.post('http://localhost:9000/update', updatedObject, {headers: jsonHeader})
+      .map((response: any) => {
+
+        this.stateChangeOnServer = true;
+
+        return this.extractData(response);
+      })
+      .catch((e: any) =>{
+        return this.handleError(e);
+      });
+
+  };
 
   extractData = function(response: any) {
     let body = response.json();
     return body;
-  }
+  };
 
   handleError = function(error: any) {
-    let errorMsg: string;
 
     try {
       if(JSON.parse(error._body).message) {
@@ -111,5 +126,5 @@ export class AppService {
     }
 
     return Observable.throw(new Error(this.errorMsg));
-  }
+  };
 }

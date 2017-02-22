@@ -8,23 +8,16 @@ export class Task {
   public title: string;
   public description: string;
   public priority: string;
-  public _id: string;
 
   constructor(
-    day: number,
-    month: string,
-    year: number,
+    date: string,
     title: string,
     description: string,
-    priority: string,
-    id: string
+    priority: string
   ){
-    this.date = day +' '+ month +' '+ year;
+    this.date = date;
     this.title = title;
     this.description = description;
     this.priority = priority;
-    this._id = id;
-    console.log('Task object created');
-
   }
 }
